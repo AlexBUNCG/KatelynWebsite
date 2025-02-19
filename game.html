@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Game!</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #d475f3;
+    }
+    .game-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+    .clickable-area {
+      position: absolute;
+      width: 250px; /* Increase the clickable area */
+      height: 250px; /* Increase the clickable area */
+      cursor: pointer;
+    }
+    .game-image {
+      width: 200px;
+      height: 200px;
+      position: absolute;
+      top: 25px; /* Center the image within the clickable area */
+      left: 25px; /* Center the image within the clickable area */
+    }
+  </style>
+</head>
+<body>
+
+<div class="game-container" id="gameContainer">
+  <div class="clickable-area" id="clickable1"><img src="Assets/grim.jpg" class="game-image" id="image1"></div>
+  <div class="clickable-area" id="clickable2"><img src="Assets/indie.jpg" class="game-image" id="image2"></div>
+  <div class="clickable-area" id="clickable3"><img src="Assets/winnie.jpg" class="game-image" id="image3"></div>
+  <div class="clickable-area" id="clickable4"><img src="Assets/rue.jpg" class="game-image" id="image4"></div>
+  <div class="clickable-area" id="clickable5"><img src="Assets/zoey.jpg" class="game-image" id="image5"></div>
+  <div class="clickable-area" id="clickable6"><img src="Assets/daisy.jpg" class="game-image" id="image6"></div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const clickables = document.querySelectorAll('.clickable-area');
+    const container = document.getElementById('gameContainer');
+    let score = 0;
+    let speedMultiplier = 1;
+
+    clickables.forEach(clickable => {
+      const image = clickable.querySelector('.game-image');
+      clickable.style.top = `${Math.random() * (window.innerHeight - clickable.offsetHeight)}px`;
+      clickable.style.left = `${Math.random() * (window.innerWidth - clickable.offsetWidth)}px`;
+
+      clickable.addEventListener('click', () => {
+        clickable.style.display = 'none';
+        score++;
+        speedMultiplier += 0.5; // Increase speed multiplier
+        if (score === clickables.length) {
+          alert('GOOD JOB BABY! YOU GOT THEM ALL! Now time for your "prize"! <3');
+          setTimeout(() => {
+            window.location.href = 'video.html';
+          }, 100); // Delay redirection slightly
+
+          // Show clickable image after 3 seconds if redirection fails
+          setTimeout(() => {
+            const fallbackImage = document.createElement('img');
+            fallbackImage.src = 'Assets/fallback.jpg'; // Replace with your image path
+            fallbackImage.style.width = '200px';
+            fallbackImage.style.height = '200px';
+            fallbackImage.style.cursor = 'pointer';
+            fallbackImage.addEventListener('click', () => {
+              window.location.href = 'video.html';
+            });
+            document.body.appendChild(fallbackImage);
+          }, 3000);
+        }
+      });
+
+      moveImage(clickable);
+    });
+
+    function moveImage(clickable) {
+      let speed = (Math.random() * 5 + 1);
+      let directionX = Math.random() < 0.5 ? 1 : -1;
+      let directionY = Math.random() < 0.5 ? 1 : -1;
+
+      function animate() {
+        let rect = clickable.getBoundingClientRect();
+        if (rect.left <= 0 || rect.right >= window.innerWidth) {
+          directionX *= -1;
+        }
+        if (rect.top <= 0 || rect.bottom >= window.innerHeight) {
+          directionY *= -1;
+        }
+        clickable.style.left = `${rect.left + directionX * speed * speedMultiplier}px`;
+        clickable.style.top = `${rect.top + directionY * speed * speedMultiplier}px`;
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+  });
+</script>
+</body>
+</html>

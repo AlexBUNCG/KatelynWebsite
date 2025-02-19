@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Photo Gallery</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            font-size: 30px;
+            align-items: center;
+            background-color: #d475f3;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            font-family: sans-serif;
+            text-align: center;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 10px;
+        }
+        .gallery img {
+            width: 100%;
+            height: auto;
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+        }
+        .arrow {
+            cursor: pointer;
+            font-size: 2em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Photo Gallery</h1>
+<br>
+<br>
+After you are done scrolling, it is time for the challenge I mentioned earlier! Are you ready baby? Click on Cubone when you are! <br>
+<br>
+<a href="game.html"> <img src="Assets/cubone.jpg" alt="Bone bone" style="width:100px;height:100px;"></a>
+<div class="gallery" id="gallery">
+    <img src="Assets/photo1.jpg" alt="Photo 1">
+    <img src="Assets/photo2.jpg" alt="Photo 2">
+    <img src="Assets/photo3.jpg" alt="Photo 3">
+    <img src="Assets/photo4.jpg" alt="Photo 4">
+    <img src="Assets/photo5.jpg" alt="Photo 5">
+    <img src="Assets/photo6.jpg" alt="Photo 6">
+    <img src="Assets/photo7.jpg" alt="Photo 7">
+    <img src="Assets/photo8.jpg" alt="Photo 8">
+    <img src="Assets/photo9.jpg" alt="Photo 9">
+</div>
+<div class="arrow" id="nextArrow">&#9654;</div>
+<br>
+<br>
+
+
+<script>
+    const images = [
+        ["Assets/photo1.jpg", "Assets/photo2.jpg", "Assets/photo3.jpg", "Assets/photo4.jpg", "Assets/photo5.jpg", "Assets/photo6.jpg", "Assets/photo7.jpg", "Assets/photo8.jpg", "Assets/photo9.jpg"],
+        ["Assets/photo10.jpg", "Assets/photo11.jpg", "Assets/photo12.jpg", "Assets/photo13.jpg", "Assets/photo14.jpg", "Assets/photo15.jpg", "Assets/photo16.jpg", "Assets/photo17.jpg", "Assets/photo18.jpg"],
+        ["Assets/photo19.png", "Assets/photo20.png", "Assets/photo21.png", "Assets/photo22.png", "Assets/photo23.png", "Assets/photo24.png", "Assets/photo25.png", "Assets/photo26.png", "Assets/photo27.png"]
+    ];
+    let currentSet = 0;
+
+    document.getElementById('nextArrow').addEventListener('click', function() {
+        currentSet = (currentSet + 1) % images.length;
+        updateGallery();
+    });
+
+    function updateGallery() {
+        const gallery = document.getElementById('gallery');
+        gallery.innerHTML = '';
+        images[currentSet].forEach((src, index) => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = 'Photo';
+            if (src === "Assets/photo18.jpg") {
+                img.addEventListener('click', function() {
+                    localStorage.setItem('photo18Clicked', 'true');
+                });
+            }
+            gallery.appendChild(img);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateGallery();//commit
+    });
+</script>
+</body>
+</html>
