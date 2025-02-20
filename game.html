@@ -45,6 +45,7 @@
     const container = document.getElementById('gameContainer');
     let score = 0;
     let speedMultiplier = 1;
+    const maxSpeedMultiplier = 3; // Set a maximum speed multiplier
 
     clickables.forEach(clickable => {
       const image = clickable.querySelector('.game-image');
@@ -54,7 +55,7 @@
       const handleClick = () => {
         clickable.style.display = 'none';
         score++;
-        speedMultiplier += 0.5;
+        speedMultiplier = Math.min(speedMultiplier + 0.5, maxSpeedMultiplier); // Limit the speed multiplier
         if (score === clickables.length) {
           alert('GOOD JOB BABY! YOU GOT THEM ALL! Now time for your "prize"! <3');
           setTimeout(() => {
