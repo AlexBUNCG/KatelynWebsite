@@ -16,16 +16,16 @@
     }
     .clickable-area {
       position: absolute;
-      width: 250px; /* Increase the clickable area */
-      height: 250px; /* Increase the clickable area */
+      width: 20vw; /* Use viewport width for responsiveness */
+      height: 20vw; /* Use viewport width for responsiveness */
       cursor: pointer;
     }
     .game-image {
-      width: 200px;
-      height: 200px;
+      width: 80%; /* Adjust size relative to clickable area */
+      height: 80%; /* Adjust size relative to clickable area */
       position: absolute;
-      top: 25px; /* Center the image within the clickable area */
-      left: 25px; /* Center the image within the clickable area */
+      top: 10%; /* Center the image within the clickable area */
+      left: 10%; /* Center the image within the clickable area */
     }
   </style>
 </head>
@@ -51,20 +51,18 @@
       clickable.style.top = `${Math.random() * (window.innerHeight - clickable.offsetHeight)}px`;
       clickable.style.left = `${Math.random() * (window.innerWidth - clickable.offsetWidth)}px`;
 
-      clickable.addEventListener('click', () => {
+      const handleClick = () => {
         clickable.style.display = 'none';
         score++;
-        speedMultiplier += 0.5; // Increase speed multiplier
+        speedMultiplier += 0.5;
         if (score === clickables.length) {
           alert('GOOD JOB BABY! YOU GOT THEM ALL! Now time for your "prize"! <3');
           setTimeout(() => {
             window.location.href = 'video.html';
-          }, 100); // Delay redirection slightly
-
-          // Show clickable image after 3 seconds if redirection fails
+          }, 100);
           setTimeout(() => {
             const fallbackImage = document.createElement('img');
-            fallbackImage.src = 'Assets/fallback.jpg'; // Replace with your image path
+            fallbackImage.src = 'Assets/fallback.jpg';
             fallbackImage.style.width = '200px';
             fallbackImage.style.height = '200px';
             fallbackImage.style.cursor = 'pointer';
@@ -74,7 +72,10 @@
             document.body.appendChild(fallbackImage);
           }, 3000);
         }
-      });
+      };
+
+      clickable.addEventListener('click', handleClick);
+      clickable.addEventListener('touchstart', handleClick); // Add touch event listener
 
       moveImage(clickable);
     });
